@@ -1,0 +1,71 @@
+{
+  "plugins": [
+    {
+      "type": "plugin",
+      "name": "Video Splitter",
+      "class": "de.swa.bla.VideoPlugin"
+    },
+    {
+      "type": "plugin",
+      "name": "Audio Splitter",
+      "class": "de.swa.bla.AudioPlugin"
+    }
+  ],
+  "fusions": [
+    {
+      "type": "fusion",
+      "name": "Video Splitter",
+      "class": "de.swa.bla.VideoFusion"
+    },
+    {
+      "type": "fusion",
+      "name": "Audio Splitter",
+      "class": "de.swa.bla.AudioFusion"
+    }
+  ],
+  "exports": [
+    {
+      "type": "export",
+      "name": "Video Splitter",
+      "class": "de.swa.bla.VideoExport"
+    },
+    {
+      "type": "export",
+      "name": "Audio Splitter",
+      "class": "de.swa.bla.AudioExport"
+    }
+  ],
+  "resources": [
+    {
+      "type": "resource",
+      "name": "Video Splitter",
+      "location": "temp/upload"
+    },
+    {
+      "type": "resource",
+      "name": "Audio Splitter",
+      "class": "de.swa.bla.AudioResource"
+    }
+  ],
+  "parameters": [
+    {
+      "type": "parameter",
+      "name": "Video Splitter",
+      "class": "de.swa.bla.VideoParameter"
+    },
+    {
+      "type": "audio",
+      "name": "Audio Splitter"
+    }
+  ],
+  "flow-sources": [
+    {
+      "type": "flow-source",
+      "name": "Video Splitter"
+    },
+    {
+      "type": "flow-source",
+      "name": "Audio Splitter"
+    }
+  ]
+}
