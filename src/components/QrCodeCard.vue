@@ -6,7 +6,7 @@
       </v-card-title>
 
       <v-card-subtitle class="text-capitalize">
-        {{ content.type }}
+        {{ content.definitionType }}
       </v-card-subtitle>
 
       <v-card-actions>

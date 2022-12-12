@@ -1,16 +1,20 @@
 <template>
   <v-dialog
-      v-model="show"
-      width="500">
+    v-model="show"
+    width="500">
     <v-card>
       <v-card-title class="headline" primary-title>
         Create Element
       </v-card-title>
       <v-card-text class="pa-5">
         <v-form ref="sendForm" v-model="valid" lazy-validation>
-          <v-select outlined :items="typeItems" v-model="type" label="Type"></v-select>
+          <v-select outlined :items="typeItems" v-model="definitionType" label="Type"></v-select>
           <v-text-field outlined v-model="name" label="Name"></v-text-field>
-          <v-textarea outlined v-model="input" label="Input"></v-textarea>
+          <v-text-field v-if="definitionType !== 'resource'" outlined v-model="clazz" label="Class"></v-text-field>
+          <v-text-field v-if="definitionType === 'resource'" outlined v-model="type"
+                        label="Type"></v-text-field>
+          <v-text-field v-if="definitionType === 'resource'" outlined v-model="location"
+                        label="Location"></v-text-field>
         </v-form>
       </v-card-text>
       <v-card-actions class="pa-5">
@@ -22,8 +26,6 @@
 </template>
 
 <script>
-import QRCode from "qrcode";
-
 export default {
   name: "QRCodeDataCreateForm",
   props: {
@@ -32,59 +34,59 @@ export default {
   data() {
     return {
       name: "",
+      definitionType: "",
+      clazz: "",
       type: "",
-      typeItems: ['plugin', 'fusion', 'export', 'resource', 'parameter', 'flow-source'],
-      input: "",
+      location: "",
+      typeItems: ['plugin', 'fusion', 'export', 'resource'],
       valid: true,
-      rules: {
-        required: modelValue => !!modelValue || "This field is required",
-        email: v => /.+@.+\..+/.test(v) || "Must be a valid email"
-      }
+      // rules: {
+      //   required: modelValue => !!modelValue || "This field is required",
+      //   email: v => /.+@.+\..+/.test(v) || "Must be a valid email"
+      // }
     }
   },
   computed: {
     show: {
-      get () {
+      get() {
         return this.modelValue
       },
-      set (modelValue) {
+      set(modelValue) {
         this.$emit('update:modelValue', modelValue)
       }
     }
   },
   methods: {
-     submit: function () {
-       let canvas = document.getElementById('canvas')
-       console.log(canvas)
-       console.log(this.input)
-       let qrCodeUrl = null
+    submit: function () {
+      let canvas = document.getElementById('canvas')
+      console.log(canvas)
 
-       QRCode.toDataURL(this.input,{}, function (error, url) {
-         if (error) console.error(error)
-         qrCodeUrl = url;
-       })
+      const qrCodeData = {
+        definitionType: this.definitionType,
+        name: this.name,
+        class: this.clazz,
+        type: this.type,
+        location: this.location
+      }
 
-       if (qrCodeUrl) {
-         const qrCodeData = {
-           type: this.type,
-           name: this.name,
-           qrCodeUrl
-         }
-
-         this.$emit('addQrCodeEvent', qrCodeData)
-         this.type = ""
-         this.name = ""
-         this.input = ""
-         this.show = false
-       }
-     },
-    cancel: function () {
-        this.type = ""
-        this.name = ""
-        this.input = ""
-        this.show = false
+      this.$emit('addQrCodeEvent', qrCodeData)
+      this.definitionType = ""
+      this.name = ""
+      this.clazz = ""
+      this.type = ""
+      this.location = ""
+      this.show = false
     }
+  },
+  cancel: function () {
+    this.definitionType = ""
+    this.name = ""
+    this.clazz = ""
+    this.type = ""
+    this.location = ""
+    this.show = false
   }
+
 }
 
 </script>

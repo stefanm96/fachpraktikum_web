@@ -1,71 +1,52 @@
 {
   "plugins": [
     {
-      "type": "plugin",
-      "name": "Video Splitter",
+      "definitionType": "plugin",
+      "name": "Video Plugin",
       "class": "de.swa.bla.VideoPlugin"
     },
     {
-      "type": "plugin",
-      "name": "Audio Splitter",
+      "definitionType": "plugin",
+      "name": "Audio Plugin",
       "class": "de.swa.bla.AudioPlugin"
     }
   ],
   "fusions": [
     {
-      "type": "fusion",
-      "name": "Video Splitter",
+      "definitionType": "fusion",
+      "name": "Video Fusion",
       "class": "de.swa.bla.VideoFusion"
     },
     {
-      "type": "fusion",
-      "name": "Audio Splitter",
+      "definitionType": "fusion",
+      "name": "Audio Fusion",
       "class": "de.swa.bla.AudioFusion"
     }
   ],
   "exports": [
     {
-      "type": "export",
-      "name": "Video Splitter",
+      "definitionType": "export",
+      "name": "Video Export",
       "class": "de.swa.bla.VideoExport"
     },
     {
-      "type": "export",
-      "name": "Audio Splitter",
+      "definitionType": "export",
+      "name": "Audio Export",
       "class": "de.swa.bla.AudioExport"
     }
   ],
   "resources": [
     {
-      "type": "resource",
-      "name": "Video Splitter",
+      "definitionType": "resource",
+      "name": "upload-dir",
+      "type": "folder",
       "location": "temp/upload"
     },
     {
-      "type": "resource",
-      "name": "Audio Splitter",
-      "class": "de.swa.bla.AudioResource"
-    }
-  ],
-  "parameters": [
-    {
-      "type": "parameter",
-      "name": "Video Splitter",
-      "class": "de.swa.bla.VideoParameter"
-    },
-    {
-      "type": "audio",
-      "name": "Audio Splitter"
-    }
-  ],
-  "flow-sources": [
-    {
-      "type": "flow-source",
-      "name": "Video Splitter"
-    },
-    {
-      "type": "flow-source",
-      "name": "Audio Splitter"
+      "definitionType": "resource",
+      "name": "facebook",
+      "type": "url",
+      "location": "https://www.example.com"
     }
   ]
 }

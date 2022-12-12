@@ -32,10 +32,10 @@
       </v-tabs>
       <v-container>
         <v-window v-model="typeTab">
-          <v-window-item v-for="type in Array.from(Object.keys(this.typeMap).map(k=>this.typeMap[k]))" :value="type">
+          <v-window-item v-for="definitionType in Array.from(Object.keys(this.definitionTypeMap).map(k=>this.definitionTypeMap[k]))" :value="definitionType">
             <v-row class="ma-auto">
               <v-col
-                v-for="(element, i) in this.qrCodeData[type]"
+                v-for="(element, i) in this.qrCodeData[definitionType]"
                 :key="`${name}${i}`"
                 cols="6"
                 md="3"
@@ -52,7 +52,7 @@
 
 <script>
 import QRCodeDataForm from "@/components/QRCodeDataCreateForm";
-import QRCodeDataView from "@/components/QRCodeDataView";
+import QRCodeDataView from "@/components/QRCodeDetailView";
 import qrCodeData from "./assets/qrCodeData.json";
 import QrCodeCard from "@/components/QrCodeCard";
 
@@ -65,7 +65,7 @@ export default {
     showQRCodeDataView: false,
     selectedElement: null,
     qrCodeData: qrCodeData,
-    typeMap: {
+    definitionTypeMap: {
       "plugin": "plugins",
       "fusion": "fusions",
       "export": "exports",
@@ -74,14 +74,15 @@ export default {
   }),
   methods: {
     addQrCodeComponent(qrCodeData) {
-      const mappedType = this.typeMap[qrCodeData.type]
+      const mappedDefinitionType = this.definitionTypeMap[qrCodeData.definitionType]
 
-      console.log("qrKey: " + JSON.stringify(this.qrCodeData[mappedType]))
+      console.log("qrKey: " + JSON.stringify(this.qrCodeData[mappedDefinitionType]))
 
-      this.qrCodeData[mappedType].push({
-        "type": qrCodeData.type,
-        "name": qrCodeData.name
-      });
+      const nonEmptyValues = Object.keys(qrCodeData).filter(key => qrCodeData[key]);
+      const newObj = nonEmptyValues.reduce((acc, key) =>
+        ({ ...acc, [key]: qrCodeData[key] }), {});
+
+      this.qrCodeData[mappedDefinitionType].push(newObj);
 
       console.log(this.qrCodeData);
     },

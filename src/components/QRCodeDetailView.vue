@@ -8,11 +8,11 @@
       </v-card-title>
 
       <v-card-subtitle class="text-capitalize">
-        {{ content.type }}
+        {{ content.definitionType }}
       </v-card-subtitle>
 
       <v-card-text class="text-center">
-        <qrcode-vue class="align-center" :value="JSON.stringify(content)" :size="300" level="H"/>
+        <qrcode-vue class="align-center" :value="serializeContent()" :size="300" level="H"/>
       </v-card-text>
 
       <v-card-actions>
@@ -69,6 +69,15 @@ export default {
     },
     deleteData: function () {
       console.log("delete triggered")
+    },
+    serializeContent: function () {
+      const definitionType = this.content.definitionType
+      const name = this.content.name
+      const clazzTemplate = (this.content.class && ` class="${this.content.class}" `) || ""
+      const typeTemplate = (this.content.type && ` type="${this.content.type}" `) || ""
+      const locationTemplate = (this.content.location && ` location="${this.content.location}" `) || ""
+
+      return `<${definitionType}-definition name="${name}"${clazzTemplate}${typeTemplate}${locationTemplate}/>`
     },
     cancel: function () {
       this.show = false
