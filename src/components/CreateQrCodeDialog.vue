@@ -8,8 +8,10 @@
       </v-card-title>
       <v-card-text class="pa-5">
         <v-form ref="sendForm" v-model="valid" lazy-validation>
-          <v-select outlined :items="typeItems" v-model="definitionType" label="Type"></v-select>
-          <v-text-field outlined v-model="name" label="Name"></v-text-field>
+          <v-select :rules="[rules.required]" outlined :items="typeItems" v-model="definitionType"
+                    label="Type"></v-select>
+          <v-text-field :rules="[rules.required, rules.nameAlreadyExists]" outlined v-model="name"
+                        label="Name"></v-text-field>
           <v-text-field v-if="definitionType !== 'resource'" outlined v-model="clazz" label="Class"></v-text-field>
           <v-text-field v-if="definitionType === 'resource'" outlined v-model="type"
                         label="Type"></v-text-field>
@@ -18,7 +20,9 @@
         </v-form>
       </v-card-text>
       <v-card-actions class="pa-5">
-        <v-btn class="ml-auto" @click.stop="submit" variant="elevated" color="primary">Create</v-btn>
+        <v-btn class="ml-auto" autofocus :disabled="createDisabled" @click.stop="submit" variant="elevated"
+               color="primary">Create
+        </v-btn>
         <v-btn @click.stop="cancel" variant="outlined">Cancel</v-btn>
       </v-card-actions>
     </v-card>
@@ -27,9 +31,10 @@
 
 <script>
 export default {
-  name: "QRCodeDataCreateForm",
+  name: "CreateQrCodeDialog",
   props: {
-    modelValue: Boolean
+    modelValue: Boolean,
+    qrCodeNameList: [String]
   },
   data() {
     return {
@@ -40,10 +45,10 @@ export default {
       location: "",
       typeItems: ['plugin', 'fusion', 'export', 'resource'],
       valid: true,
-      // rules: {
-      //   required: modelValue => !!modelValue || "This field is required",
-      //   email: v => /.+@.+\..+/.test(v) || "Must be a valid email"
-      // }
+      rules: {
+        required: modelValue => !!modelValue || "This field is required",
+        nameAlreadyExists: modelValue => this.qrCodeNameList.indexOf(modelValue) === -1 || "This name already exists!"
+      }
     }
   },
   computed: {
@@ -54,17 +59,17 @@ export default {
       set(modelValue) {
         this.$emit('update:modelValue', modelValue)
       }
+    },
+    createDisabled() {
+      return !this.name || this.name === '' || !this.definitionType || this.qrCodeNameList.indexOf(this.name) !== -1
     }
   },
   methods: {
     submit: function () {
-      let canvas = document.getElementById('canvas')
-      console.log(canvas)
-
       const qrCodeData = {
         definitionType: this.definitionType,
         name: this.name,
-        class: this.clazz,
+        clazz: this.clazz,
         type: this.type,
         location: this.location
       }
@@ -76,21 +81,16 @@ export default {
       this.type = ""
       this.location = ""
       this.show = false
-    }
-  },
-  cancel: function () {
-    this.definitionType = ""
-    this.name = ""
-    this.clazz = ""
-    this.type = ""
-    this.location = ""
-    this.show = false
+    },
+    cancel: function () {
+      this.show = false
+      this.definitionType = ""
+      this.name = ""
+      this.clazz = ""
+      this.type = ""
+      this.location = ""
+    },
   }
-
 }
 
 </script>
-
-<style scoped>
-
-</style>

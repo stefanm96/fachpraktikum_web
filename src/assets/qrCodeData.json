@@ -3,36 +3,36 @@
     {
       "definitionType": "plugin",
       "name": "Video Plugin",
-      "class": "de.swa.bla.VideoPlugin"
+      "clazz": "de.swa.bla.VideoPlugin"
     },
     {
       "definitionType": "plugin",
       "name": "Audio Plugin",
-      "class": "de.swa.bla.AudioPlugin"
+      "clazz": "de.swa.bla.AudioPlugin"
     }
   ],
   "fusions": [
     {
       "definitionType": "fusion",
       "name": "Video Fusion",
-      "class": "de.swa.bla.VideoFusion"
+      "clazz": "de.swa.bla.VideoFusion"
     },
     {
       "definitionType": "fusion",
       "name": "Audio Fusion",
-      "class": "de.swa.bla.AudioFusion"
+      "clazz": "de.swa.bla.AudioFusion"
     }
   ],
   "exports": [
     {
       "definitionType": "export",
       "name": "Video Export",
-      "class": "de.swa.bla.VideoExport"
+      "clazz": "de.swa.bla.VideoExport"
     },
     {
       "definitionType": "export",
       "name": "Audio Export",
-      "class": "de.swa.bla.AudioExport"
+      "clazz": "de.swa.bla.AudioExport"
     }
   ],
   "resources": [

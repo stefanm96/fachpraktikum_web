@@ -12,14 +12,14 @@
       </v-card-subtitle>
 
       <v-card-text class="text-center">
-        <qrcode-vue class="align-center" :value="serializeContent()" :size="300" level="H"/>
+        <qrcode-vue class="align-center" :value="serializedContent()" :size="300" level="H"/>
+        <p class="text-center text-grey">{{ serializedContent() }}</p>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn class="ml-auto" @click.stop="submit" variant="elevated" color="primary">Edit</v-btn>
-        <v-btn @click.stop="deleteData" variant="elevated" color="error">Delete</v-btn>
+        <v-btn class="ml-auto" @click.stop="showEdit" variant="elevated" color="primary">Edit</v-btn>
+        <v-btn @click.stop="this.delete" variant="elevated" color="error">Delete</v-btn>
         <v-btn @click.stop="cancel" variant="outlined">Cancel</v-btn>
-        <!-- TODO: implement edit, delete -->
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -29,7 +29,7 @@
 import QrcodeVue from 'qrcode.vue'
 
 export default {
-  name: "QRCodeDataView",
+  name: "QrCodeDetailView",
   components: {
     QrcodeVue,
   },
@@ -45,8 +45,7 @@ export default {
       input: "",
       valid: true,
       rules: {
-        required: modelValue => !!modelValue || "This field is required",
-        email: v => /.+@.+\..+/.test(v) || "Must be a valid email"
+        required: modelValue => !!modelValue || "This field is required"
       }
     }
   },
@@ -61,25 +60,26 @@ export default {
     }
   },
   methods: {
-    submit: function () {
-      console.log("submit triggered!")
-    },
     showView: function () {
-      console.log("show View inner")
     },
-    deleteData: function () {
-      console.log("delete triggered")
+    delete: function () {
+      this.$emit('openDeleteQrCodeEvent')
+      this.show = false
     },
-    serializeContent: function () {
+    serializedContent: function () {
       const definitionType = this.content.definitionType
       const name = this.content.name
-      const clazzTemplate = (this.content.class && ` class="${this.content.class}" `) || ""
+      const clazzTemplate = (this.content.clazz && ` class="${this.content.clazz}" `) || ""
       const typeTemplate = (this.content.type && ` type="${this.content.type}" `) || ""
       const locationTemplate = (this.content.location && ` location="${this.content.location}" `) || ""
 
       return `<${definitionType}-definition name="${name}"${clazzTemplate}${typeTemplate}${locationTemplate}/>`
     },
     cancel: function () {
+      this.show = false
+    },
+    showEdit: function () {
+      this.$emit('openEditQrCodeEvent')
       this.show = false
     }
   }
